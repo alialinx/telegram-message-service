@@ -1,0 +1,25 @@
+services:
+  api:
+    build: .
+    container_name: telegram-sender-api
+    restart: always
+    ports:
+      - "8001:8001"
+    env_file:
+      - .env
+    volumes:
+      - ./sessions:/app/sessions
+    depends_on:
+      - mongo
+
+  mongo:
+    image: mongo:7
+    container_name: telegram-sender-mongo
+    restart: always
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+
+volumes:
+  mongo_data:
